@@ -75,7 +75,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
-                    android:text="publishedAt" />
+                    android:text="publishedAt"
+                    android:textColor="#3F51B5" />
             </TableRow>
 
             <TableRow

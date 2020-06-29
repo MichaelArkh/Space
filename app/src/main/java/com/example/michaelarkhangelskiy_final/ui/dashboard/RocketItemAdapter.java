@@ -1,11 +1,8 @@
-package com.example.michaelarkhangelskiy_final.ui.home;
+package com.example.michaelarkhangelskiy_final.ui.dashboard;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +18,12 @@ import com.example.michaelarkhangelskiy_final.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsItemAdapter extends RecyclerView.Adapter {
-    private ArrayList<NewsItem> items;
+public class RocketItemAdapter extends RecyclerView.Adapter {
+    private ArrayList<RocketItem> items;
     private Context parentContext;
 
-    public NewsItemAdapter(List<NewsItem> items, Context parentContext) {
-        this.items = new ArrayList<NewsItem>(items);
+    public RocketItemAdapter(List<RocketItem> items, Context parentContext) {
+        this.items = new ArrayList<RocketItem>(items);
         this.parentContext = parentContext;
     }
     @NonNull
@@ -39,17 +36,11 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final NewsItemViewHolder itemholder = (NewsItemViewHolder) holder;
-        itemholder.getBackground().setImageBitmap(items.get(position).getImgLink());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(items.get(position).getArticleLink()));
-                parentContext.startActivity(newIntent);
-            }
-        });
-        itemholder.getAuthor().setText(items.get(position).getAuthor());
-        itemholder.getTitle().setText(items.get(position).getTitle());
-        itemholder.getDate().setText(items.get(position).getPublished().toString());
+
+        itemholder.getBackground().setImageBitmap(items.get(position).getImage());
+        itemholder.getAuthor().setText(items.get(position).getLocation());
+        itemholder.getTitle().setText(items.get(position).getName());
+        itemholder.getDate().setText(items.get(position).getStartTime().toString());
         itemholder.getSummary().setText(items.get(position).getSummary());
     }
 

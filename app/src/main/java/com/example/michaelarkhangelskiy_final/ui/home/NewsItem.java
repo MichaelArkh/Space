@@ -116,12 +116,8 @@ public class NewsItem {
             Bitmap logo = null;
             try{
                 InputStream is = new URL(imgurl).openStream();
-                /*
-                    decodeStream(InputStream is)
-                        Decode an input stream into a bitmap.
-                 */
                 logo = BitmapFactory.decodeStream(is);
-            }catch(Exception e){ // Catch the download exception
+            }catch(Exception e){
                 e.printStackTrace();
             }
             return logo;
