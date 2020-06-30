@@ -113,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 DashboardViewModel.getNewsItems();
             } catch (Exception e) {
                 //Toast.makeText(a, "Internet Error", Toast.LENGTH_LONG);
+                e.printStackTrace();
             }
             removeTask();
             finishedTask();

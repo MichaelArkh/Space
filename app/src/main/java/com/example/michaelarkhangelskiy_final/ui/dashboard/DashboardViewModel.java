@@ -10,12 +10,16 @@ import com.example.michaelarkhangelskiy_final.ui.home.NewsItem;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class DashboardViewModel extends ViewModel {
     public static String items;
@@ -48,7 +52,8 @@ public class DashboardViewModel extends ViewModel {
 
 
             //Date
-            String date = one.getString("windowstart");
+            DateFormat format = new SimpleDateFormat("MMMMM dd, yyyy HH:mm:ss z", Locale.ENGLISH);
+            Date date = format.parse(one.getString("windowstart"));
 
             ret.add(new RocketItem(date, name, summary, image, location, latLng, null));
         }

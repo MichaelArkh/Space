@@ -13,7 +13,7 @@ import java.util.concurrent.ExecutionException;
 
 public class RocketItem {
     private int itemId;
-    private String startTime;
+    private Date startTime;
     private String name;
     private String summary;
     private Bitmap image;
@@ -25,7 +25,7 @@ public class RocketItem {
     public RocketItem(){
         itemId = -1;
     }
-    public RocketItem(String startTime, String name, String summary, String image, String location, LatLng cords, String rocket) {
+    public RocketItem(Date startTime, String name, String summary, String image, String location, LatLng cords, String rocket) {
         this.startTime = startTime;
         this.name = name;
         this.summary = summary;
@@ -49,11 +49,11 @@ public class RocketItem {
         this.itemId = itemId;
     }
 
-    public String getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 

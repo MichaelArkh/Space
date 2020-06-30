@@ -6,13 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.michaelarkhangelskiy_final.R;
+import com.example.michaelarkhangelskiy_final.ui.saved.SavedViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +41,12 @@ public class RocketItemAdapter extends RecyclerView.Adapter {
         itemholder.getTitle().setText(items.get(position).getName());
         itemholder.getDate().setText(items.get(position).getStartTime().toString());
         itemholder.getSummary().setText(items.get(position).getSummary());
+        itemholder.getSaved().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SavedViewModel.addedItem(items.get(position), parentContext);
+            }
+        });
     }
 
     @Override
