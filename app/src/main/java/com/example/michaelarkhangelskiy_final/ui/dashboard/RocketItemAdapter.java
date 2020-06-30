@@ -1,11 +1,10 @@
 package com.example.michaelarkhangelskiy_final.ui.dashboard;
 
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -30,12 +29,12 @@ public class RocketItemAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_item, parent, false);
-        return new NewsItemViewHolder(v);
+        return new RocketItemViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        final NewsItemViewHolder itemholder = (NewsItemViewHolder) holder;
+        final RocketItemViewHolder itemholder = (RocketItemViewHolder) holder;
 
         itemholder.getBackground().setImageBitmap(items.get(position).getImage());
         itemholder.getAuthor().setText(items.get(position).getLocation());
@@ -49,10 +48,10 @@ public class RocketItemAdapter extends RecyclerView.Adapter {
         return items.size();
     }
 
-    public static class NewsItemViewHolder extends RecyclerView.ViewHolder {
+    public static class RocketItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView background;
         private TextView title, author, date, summary;
-        private Switch saved;
+        private Button saved;
 
         public ImageView getBackground() {
             return background;
@@ -74,17 +73,17 @@ public class RocketItemAdapter extends RecyclerView.Adapter {
             return summary;
         }
 
-        public Switch getSaved() {
+        public Button getSaved() {
             return saved;
         }
 
-        public NewsItemViewHolder(@NonNull View itemView) {
+        public RocketItemViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.article_title);
             author = itemView.findViewById(R.id.article_author);
             date = itemView.findViewById(R.id.article_published);
             summary = itemView.findViewById(R.id.article_summary);
-            saved = itemView.findViewById(R.id.news_saved_switch);
+            saved = itemView.findViewById(R.id.news_save_button);
             background = itemView.findViewById(R.id.news_background);
         }
     }

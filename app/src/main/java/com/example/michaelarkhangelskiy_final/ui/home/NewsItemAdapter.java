@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -61,7 +62,7 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
     public static class NewsItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView background;
         private TextView title, author, date, summary;
-        private Switch saved;
+        private Button saved;
 
         public ImageView getBackground() {
             return background;
@@ -83,7 +84,7 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
             return summary;
         }
 
-        public Switch getSaved() {
+        public Button getSaved() {
             return saved;
         }
 
@@ -93,7 +94,7 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
             author = itemView.findViewById(R.id.article_author);
             date = itemView.findViewById(R.id.article_published);
             summary = itemView.findViewById(R.id.article_summary);
-            saved = itemView.findViewById(R.id.news_saved_switch);
+            saved = itemView.findViewById(R.id.news_save_button);
             background = itemView.findViewById(R.id.news_background);
         }
     }
