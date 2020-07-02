@@ -22,7 +22,6 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.michaelarkhangelskiy_final.R;
-import com.example.michaelarkhangelskiy_final.RefreshViews;
 import com.example.michaelarkhangelskiy_final.ui.notifications.NotificationsViewModel;
 import com.example.michaelarkhangelskiy_final.ui.saved.SavedViewModel;
 

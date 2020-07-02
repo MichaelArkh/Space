@@ -38,138 +38,15 @@ import java.util.Date;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private int numTasks = 3;
     boolean internet;
+    public static DataManager dm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.isInternetAvailable();
+        dm = new DataManager(this);
         if(internet) {
-            new NewsTask(this).execute();
-            new RocketTask().execute();
-            new ISSTask().execute();
-        } else {
-            //Generate Blank
-            Toast.makeText(this, "No internet connection found", Toast.LENGTH_LONG).show();
-            HomeViewModel.itemList = new ArrayList<NewsItem>();
-            DashboardViewModel.itemList = new ArrayList<RocketItem>();
-            NotificationsViewModel.information = new ISS();
-        }
-    }
-
-    class ISSTask extends AsyncTask<String, Void, String[]> {
-
-        @Override
-        protected String[] doInBackground(String... strings) {
-            String response = null;
-            String response2 = null;
-            try {
-                URL url = new URL("http://api.open-notify.org/iss-now.json");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                response = reader.readLine();
-                url = new URL("http://api.open-notify.org/astros.json");
-                HttpURLConnection connection2 = (HttpURLConnection) url.openConnection();
-                BufferedReader reader2 = new BufferedReader(new InputStreamReader(connection2.getInputStream()));
-                response2 = reader2.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return new String[]{response, response2};
-        }
-        @Override
-        protected void onPostExecute(String[] result) {
-            NotificationsViewModel.locationResult = result[0];
-            NotificationsViewModel.peopleResult = result[1];
-            try {
-                NotificationsViewModel.setInformation();
-            } catch (Exception e) {
-                //Toast.makeText(a, "Internet Error", Toast.LENGTH_LONG);
-            }
-            removeTask();
-            finishedTask();
-        }
-    }
-
-    class RocketTask extends AsyncTask<String, Void, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String response = null;
-            try {
-                URL url = new URL("https://launchlibrary.net/1.4/launch/next/50");
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                BufferedReader reader =
-                        new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                response = reader.readLine();
-            } catch (IOException e) { }
-
-            return response;
-        }
-        @Override
-        protected void onPostExecute(String result) {
-            DashboardViewModel.items = result;
-            try {
-                DashboardViewModel.getNewsItems();
-            } catch (Exception e) {
-                //Toast.makeText(a, "Internet Error", Toast.LENGTH_LONG);
-                e.printStackTrace();
-            }
-            removeTask();
-            finishedTask();
-        }
-    }
-
-    class NewsTask extends AsyncTask<String, Void, String> {
-        MainActivity a;
-
-        public NewsTask(MainActivity a) {
-            this.a = a;
-        }
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String response = null;
-            try {
-                String key = a.getResources().getString(R.string.news_api);
-                Date currentTime = Calendar.getInstance().getTime();
-                @SuppressLint("SimpleDateFormat") SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
-                String date = format1.format(currentTime);
-                String search = getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("searchPref", "nasa");
-                URL url = new URL("https://newsapi.org/v2/everything?q=" + search + "&language=en&from=" + date +"&sortBy=popularity&apiKey=" + key);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                BufferedReader reader =
-                        new BufferedReader(new InputStreamReader(connection.getInputStream()));
-                response = reader.readLine();
-            } catch (IOException e) { }
-
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            HomeViewModel.items = result;
-            try {
-                HomeViewModel.getNewsItems();
-            } catch (Exception e) {
-                Toast.makeText(a, "Internet Error", Toast.LENGTH_LONG);
-            }
-            removeTask();
-            finishedTask();
-        }
-    }
-
-    private void removeTask(){
-        numTasks--;
-    }
-
-    private void finishedTask(){
-        if(numTasks == 0){
             setContentView(R.layout.activity_main);
             BottomNavigationView navView = findViewById(R.id.nav_view);
             // Passing each menu ID as a set of Ids because each
@@ -180,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
             NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
             NavigationUI.setupWithNavController(navView, navController);
+        } else {
+            //Generate Blank
+            Toast.makeText(this, "No internet connection found", Toast.LENGTH_LONG).show();
         }
     }
 

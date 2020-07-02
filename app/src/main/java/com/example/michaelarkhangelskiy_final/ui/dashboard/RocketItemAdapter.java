@@ -2,7 +2,10 @@ package com.example.michaelarkhangelskiy_final.ui.dashboard;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.michaelarkhangelskiy_final.R;
+import com.example.michaelarkhangelskiy_final.ui.home.NewsItem;
+import com.example.michaelarkhangelskiy_final.ui.home.NewsItemAdapter;
 import com.example.michaelarkhangelskiy_final.ui.saved.SavedViewModel;
+import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +34,11 @@ public class RocketItemAdapter extends RecyclerView.Adapter {
         this.items = new ArrayList<RocketItem>(items);
         this.parentContext = parentContext;
     }
+
+    public void setNewItems(List<RocketItem> a) {
+        items = new ArrayList<RocketItem>(a);
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -38,7 +50,8 @@ public class RocketItemAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final RocketItemViewHolder itemholder = (RocketItemViewHolder) holder;
 
-        itemholder.getBackground().setImageBitmap(items.get(position).getImage());
+        //new SetImage(itemholder.getBackground()).execute(items.get(position).getImage());
+        Picasso.get().load(items.get(position).getImage()).into(itemholder.getBackground());
         itemholder.getAuthor().setText(items.get(position).getLocation());
         itemholder.getTitle().setText(items.get(position).getName());
         itemholder.getDate().setText(items.get(position).getStartTime().toString());

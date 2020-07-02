@@ -16,7 +16,7 @@ public class RocketItem {
     private Date startTime;
     private String name;
     private String summary;
-    private Bitmap image;
+    private String image;
     private String location;
     private LatLng cords;
     private String rocket;
@@ -31,13 +31,8 @@ public class RocketItem {
         this.name = name;
         this.summary = summary;
         this.wikiURL = wikiURL;
-        try {
-            this.image = new SetImageTask().execute(image).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+
+        this.image = image;
         this.location = location;
         this.cords = cords;
         this.rocket = rocket;
@@ -83,11 +78,11 @@ public class RocketItem {
         this.summary = summary;
     }
 
-    public Bitmap getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Bitmap image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

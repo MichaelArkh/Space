@@ -2,7 +2,10 @@ package com.example.michaelarkhangelskiy_final.ui.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.michaelarkhangelskiy_final.R;
 import com.example.michaelarkhangelskiy_final.ui.saved.SavedViewModel;
+import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +32,10 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
         this.items = new ArrayList<NewsItem>(items);
         this.parentContext = parentContext;
     }
+    public void setNewItems(List<NewsItem> a) {
+        items = new ArrayList<NewsItem>(a);
+    }
+
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,7 +46,7 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final NewsItemViewHolder itemholder = (NewsItemViewHolder) holder;
-        itemholder.getBackground().setImageBitmap(items.get(position).getImgLink());
+        Picasso.get().load(items.get(position).getImgLink()).into(itemholder.getBackground());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -16,7 +16,7 @@ public class NewsItem {
     private String author;
     private Date published;
     private String summary;
-    private Bitmap imgLink;
+    private String imgLink;
     private String articleLink;
     private boolean saved;
 
@@ -26,13 +26,7 @@ public class NewsItem {
 
     public NewsItem(String title, String author, Date published, String summary, String imgLink, String articleLink, boolean saved){
 
-        try {
-            this.imgLink = new SetImageTask().execute(imgLink).get();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.imgLink =  imgLink;
         this.articleLink = articleLink;
         this.title = title;
         this.author = author;
@@ -74,11 +68,11 @@ public class NewsItem {
         this.published = published;
     }
 
-    public Bitmap getImgLink() {
+    public String getImgLink() {
         return imgLink;
     }
 
-    public void setImgLink(Bitmap imgLink) {
+    public void setImgLink(String imgLink) {
         this.imgLink = imgLink;
     }
 

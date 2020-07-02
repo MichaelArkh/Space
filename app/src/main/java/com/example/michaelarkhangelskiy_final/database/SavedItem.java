@@ -19,7 +19,7 @@ public class SavedItem {
     private String author;
     private String date;
     private String summary;
-    private Bitmap image;
+    private String image;
     private String clicked;
 
     public SavedItem() {itemId = -1;}
@@ -64,11 +64,11 @@ public class SavedItem {
         this.summary = summary;
     }
 
-    public Bitmap getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(Bitmap image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

@@ -80,10 +80,7 @@ public class SavedItemDataSource {
             cv.put("author", i.getAuthor());
             cv.put("date", i.getDate());
             cv.put("summary", i.getSummary());
-            Bitmap bp = i.getImage();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bp.compress(Bitmap.CompressFormat.JPEG, 50, stream);
-            cv.put("image", stream.toByteArray());
+            cv.put("image", i.getImage());
             cv.put("click_link", i.getClicked());
 
             succ = database.insert(table, null, cv) > 0;
@@ -102,10 +99,7 @@ public class SavedItemDataSource {
             cv.put("author", i.getAuthor());
             cv.put("date", i.getDate());
             cv.put("summary", i.getSummary());
-            Bitmap bp = i.getImage();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-            cv.put("image", stream.toByteArray());
+            cv.put("image", i.getImage());
             cv.put("click_link", i.getClicked());
 
             succ = database.update(table, cv, "_id=" + (long)i.getItemId(), null) > 0;
@@ -133,7 +127,7 @@ public class SavedItemDataSource {
             i.setAuthor(cursor.getString(2));
             i.setDate(cursor.getString(3));
             i.setSummary(cursor.getString(4));
-            i.setImage(BitmapFactory.decodeByteArray(cursor.getBlob(5), 0, cursor.getBlob(5).length));
+            i.setImage(cursor.getString(5));
             i.setClicked(cursor.getString(6));
         }
         return i;
