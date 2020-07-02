@@ -1,6 +1,7 @@
 package com.example.michaelarkhangelskiy_final;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -131,7 +132,6 @@ public class MainActivity extends AppCompatActivity {
             super.onPreExecute();
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
         @Override
         protected String doInBackground(String... strings) {
             String response = null;
@@ -140,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
                 Date currentTime = Calendar.getInstance().getTime();
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
                 String date = format1.format(currentTime);
-
-                URL url = new URL("https://newsapi.org/v2/everything?q=nasa&language=en&from=" + date +"&sortBy=popularity&apiKey=" + key);
+                String search = getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("searchPref", "nasa");
+                URL url = new URL("https://newsapi.org/v2/everything?q=" + search + "&language=en&from=" + date +"&sortBy=popularity&apiKey=" + key);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 BufferedReader reader =
                         new BufferedReader(new InputStreamReader(connection.getInputStream()));
