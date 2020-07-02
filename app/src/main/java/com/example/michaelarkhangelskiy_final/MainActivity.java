@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             String response = null;
             try {
-                URL url = new URL("https://launchlibrary.net/1.4/launch/next/10");
+                URL url = new URL("https://launchlibrary.net/1.4/launch/next/50");
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 BufferedReader reader =
                         new BufferedReader(new InputStreamReader(connection.getInputStream()));

@@ -20,15 +20,17 @@ public class RocketItem {
     private String location;
     private LatLng cords;
     private String rocket;
+    private String wikiURL;
     private boolean saved;
 
     public RocketItem(){
         itemId = -1;
     }
-    public RocketItem(Date startTime, String name, String summary, String image, String location, LatLng cords, String rocket) {
+    public RocketItem(Date startTime, String name, String summary, String image, String location, LatLng cords, String rocket, String wikiURL) {
         this.startTime = startTime;
         this.name = name;
         this.summary = summary;
+        this.wikiURL = wikiURL;
         try {
             this.image = new SetImageTask().execute(image).get();
         } catch (ExecutionException e) {
@@ -39,6 +41,14 @@ public class RocketItem {
         this.location = location;
         this.cords = cords;
         this.rocket = rocket;
+    }
+
+    public String getWikiURL() {
+        return wikiURL;
+    }
+
+    public void setWikiURL(String wikiURL) {
+        this.wikiURL = wikiURL;
     }
 
     public int getItemId() {

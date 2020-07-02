@@ -1,6 +1,8 @@
 package com.example.michaelarkhangelskiy_final.ui.dashboard;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +47,13 @@ public class RocketItemAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 SavedViewModel.addedItem(items.get(position), parentContext);
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent newIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(items.get(position).getWikiURL()));
+                parentContext.startActivity(newIntent);
             }
         });
     }

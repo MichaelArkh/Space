@@ -32,7 +32,8 @@ public class DashboardViewModel extends ViewModel {
         JSONObject values = new JSONObject(items);
 
         JSONArray main = values.getJSONArray("launches");
-        for(int i = 0; i < 10; i++){
+        int count = values.getInt("count");
+        for(int i = 0; i < count; i++){
             JSONObject one = main.getJSONObject(i);
             //Location Data
             JSONObject locationdata = one.getJSONObject("location");
@@ -43,19 +44,30 @@ public class DashboardViewModel extends ViewModel {
 
             //Rocket Data
             JSONObject rocketdata = one.getJSONObject("rocket");
-            String name = rocketdata.getString("name");
+            String rocketName = rocketdata.getString("name");
             String image = rocketdata.getString("imageURL");
 
             //Summary
-            JSONObject summarydata = one.getJSONArray("missions").getJSONObject(0);
-            String summary = summarydata.getString("description");
-
+            JSONArray missiondata = one.getJSONArray("missions");
+            String summary = null;
+            String name = rocketName;
+            String redirectUrl = "";
+            if(missiondata.length() > 0) {
+                JSONObject summarydata = missiondata.getJSONObject(0);
+                summary = summarydata.getString("description");
+                name = summarydata.getString("name");
+                redirectUrl = summarydata.getString("wikiURL");
+            }
+            if(redirectUrl.equals("")){
+                redirectUrl = rocketdata.getString("wikiURL");
+            }
 
             //Date
             DateFormat format = new SimpleDateFormat("MMMMM dd, yyyy HH:mm:ss z", Locale.ENGLISH);
             Date date = format.parse(one.getString("windowstart"));
 
-            ret.add(new RocketItem(date, name, summary, image, location, latLng, null));
+
+            ret.add(new RocketItem(date, name, summary, image, location, latLng, rocketName, redirectUrl));
         }
 
         itemList = ret;

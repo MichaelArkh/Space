@@ -86,17 +86,21 @@ public class SavedItem {
         a.setClicked(i.getArticleLink());
         a.setImage(i.getImgLink());
         a.setSummary(i.getSummary());
-        a.setAuthor(i.getAuthor());
+        a.setAuthor(i.getAuthor().replaceAll("'", ""));
         a.setTitle(i.getTitle());
         return a;
     }
     public static SavedItem convert(RocketItem i){
         SavedItem a = new SavedItem();
         a.setDate(i.getStartTime().toString());
-        a.setClicked(null);
+        if(i.getWikiURL().equals("")){
+            a.setClicked(null);
+        } else {
+            a.setClicked(i.getWikiURL());
+        }
         a.setImage(i.getImage());
         a.setSummary(i.getSummary());
-        a.setAuthor(i.getLocation());
+        a.setAuthor(i.getLocation().replaceAll("'", ""));
         a.setTitle(i.getName());
         return a;
     }
