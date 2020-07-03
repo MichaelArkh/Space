@@ -56,15 +56,19 @@ public class DataManager {
 
         } catch (IOException e) {
             //Need to generate files here
-            Toast.makeText(c, "Currently loading data from online", Toast.LENGTH_SHORT).show();
             generateFiles();
         }
     }
 
     public void generateFiles(){
+        Toast.makeText(c, "Currently loading data from online", Toast.LENGTH_SHORT).show();
         new ISSTask().execute();
         new RocketTask().execute();
         new NewsTask(c).execute();
+    }
+
+    public void generateISS() {
+        new ISSTask().execute();
     }
 
     static public List<NewsItem> loadNews(Context c){
@@ -94,7 +98,7 @@ public class DataManager {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        return new ISS();
+        return new ISS(new String[0], new LatLng(0,0));
     }
 
     class ISSTask extends AsyncTask<String, Void, String[]> {
@@ -140,7 +144,7 @@ public class DataManager {
             } catch (Exception e){
                 return;
             }
-            Intent intent = new Intent("ISS-Finshed");
+            Intent intent = new Intent("ISS-Finished");
             LocalBroadcastManager.getInstance(c).sendBroadcast(intent);
         }
     }
@@ -237,7 +241,7 @@ public class DataManager {
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
                 String date = format1.format(currentTime);
                 String search = a.getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("searchPref", "nasa");
-                search = "nasa";
+                //search = "nasa";
                 URL url = new URL("https://newsapi.org/v2/everything?q=" + search + "&language=en&from=" + date +"&sortBy=popularity&apiKey=" + key);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 BufferedReader reader =
@@ -254,7 +258,11 @@ public class DataManager {
                 ArrayList<NewsItem> ret = new ArrayList<NewsItem>();
                 JSONObject values = new JSONObject(result);
                 JSONArray main = values.getJSONArray("articles");
-                for (int i = 0; i < 10; i++) {
+                int maxCount = values.getInt("totalResults");
+                if(maxCount > 10) {
+                    maxCount = 10;
+                }
+                for (int i = 0; i < maxCount; i++) {
                     JSONObject one = main.getJSONObject(i);
                     String author = one.getString("author");
                     String title = one.getString("title");

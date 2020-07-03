@@ -21,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import com.example.michaelarkhangelskiy_final.MainActivity;
 import com.example.michaelarkhangelskiy_final.R;
 import com.example.michaelarkhangelskiy_final.ui.notifications.NotificationsViewModel;
 import com.example.michaelarkhangelskiy_final.ui.saved.SavedViewModel;
@@ -56,6 +57,11 @@ public class settings extends Fragment {
     public void onPause() {
         super.onPause();
         Log.e("test", root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("searchPref", "nasa"));
+        if(custom.isChecked()){
+            String custom1 = input.getText().toString();
+            root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).edit().putString("searchPref", custom1).apply();
+        }
+        MainActivity.dm.generateFiles();
     }
 
     private void initView(View root){
@@ -88,8 +94,6 @@ public class settings extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked) {
                     searchTerm.clearCheck();
-                    String custom1 = input.getText().toString();
-                    root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).edit().putString("searchPref", custom1).apply();
                 }
             }
         });
@@ -105,7 +109,7 @@ public class settings extends Fragment {
             ISS.setChecked(true);
         } else {
             custom.setChecked(true);
-            custom.setText(searchPref);
+            input.setText(searchPref);
         }
     }
 
