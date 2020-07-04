@@ -1,11 +1,8 @@
 package com.example.michaelarkhangelskiy_final.database;
 
-import android.graphics.Bitmap;
-
 import com.example.michaelarkhangelskiy_final.ui.dashboard.RocketItem;
 import com.example.michaelarkhangelskiy_final.ui.home.NewsItem;
 
-import java.util.Date;
 
 public class SavedItem {
     /**
@@ -21,6 +18,7 @@ public class SavedItem {
     private String summary;
     private String image;
     private String clicked;
+    private int status;
 
     public SavedItem() {itemId = -1;}
 
@@ -80,6 +78,14 @@ public class SavedItem {
         this.clicked = clicked;
     }
 
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
     public static SavedItem convert(NewsItem i){
         SavedItem a = new SavedItem();
         a.setDate(i.getPublished().toString());
@@ -88,6 +94,7 @@ public class SavedItem {
         a.setSummary(i.getSummary());
         a.setAuthor(i.getAuthor().replaceAll("'", ""));
         a.setTitle(i.getTitle());
+        a.setStatus(-1);
         return a;
     }
     public static SavedItem convert(RocketItem i){
@@ -102,6 +109,7 @@ public class SavedItem {
         a.setSummary(i.getSummary());
         a.setAuthor(i.getLocation().replaceAll("'", ""));
         a.setTitle(i.getName());
+        a.setStatus(i.getStatus());
         return a;
     }
 }

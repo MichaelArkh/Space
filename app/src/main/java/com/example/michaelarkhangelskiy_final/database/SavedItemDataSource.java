@@ -82,6 +82,7 @@ public class SavedItemDataSource {
             cv.put("summary", i.getSummary());
             cv.put("image", i.getImage());
             cv.put("click_link", i.getClicked());
+            cv.put("status", i.getStatus());
 
             succ = database.insert(table, null, cv) > 0;
         } catch (Exception e) {
@@ -101,6 +102,7 @@ public class SavedItemDataSource {
             cv.put("summary", i.getSummary());
             cv.put("image", i.getImage());
             cv.put("click_link", i.getClicked());
+            cv.put("status", i.getStatus());
 
             succ = database.update(table, cv, "_id=" + (long)i.getItemId(), null) > 0;
         } catch (Exception e) {
@@ -129,6 +131,7 @@ public class SavedItemDataSource {
             i.setSummary(cursor.getString(4));
             i.setImage(cursor.getString(5));
             i.setClicked(cursor.getString(6));
+            i.setStatus(cursor.getInt(7));
         }
         return i;
     }

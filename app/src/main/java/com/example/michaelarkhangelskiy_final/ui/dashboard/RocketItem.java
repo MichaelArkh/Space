@@ -21,12 +21,13 @@ public class RocketItem {
     private LatLng cords;
     private String rocket;
     private String wikiURL;
+    private int status;
     private boolean saved;
 
     public RocketItem(){
         itemId = -1;
     }
-    public RocketItem(Date startTime, String name, String summary, String image, String location, LatLng cords, String rocket, String wikiURL) {
+    public RocketItem(Date startTime, String name, String summary, String image, String location, LatLng cords, String rocket, String wikiURL, int status) {
         this.startTime = startTime;
         this.name = name;
         this.summary = summary;
@@ -36,6 +37,15 @@ public class RocketItem {
         this.location = location;
         this.cords = cords;
         this.rocket = rocket;
+        this.status = status;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getWikiURL() {

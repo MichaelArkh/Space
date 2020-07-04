@@ -46,7 +46,11 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final NewsItemViewHolder itemholder = (NewsItemViewHolder) holder;
-        Picasso.get().load(items.get(position).getImgLink()).into(itemholder.getBackground());
+        if(items.get(position).getImgLink().contains("https") || items.get(position).getImgLink().contains("http")) {
+            Picasso.get().load(items.get(position).getImgLink()).into(itemholder.getBackground());
+        } else {
+            Picasso.get().load("https://launchlibrary1.nyc3.digitaloceanspaces.com/RocketImages/placeholder_1920.png").into(itemholder.getBackground());
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +68,7 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
                 SavedViewModel.addedItem(items.get(position), parentContext);
             }
         });
+        itemholder.getSucceded().setText("");
     }
 
     @Override
@@ -73,8 +78,12 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
 
     public static class NewsItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView background;
-        private TextView title, author, date, summary;
+        private TextView title, author, date, summary, succeded;
         private Button saved;
+
+        public TextView getSucceded() {
+            return succeded;
+        }
 
         public ImageView getBackground() {
             return background;
@@ -108,6 +117,7 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
             summary = itemView.findViewById(R.id.article_summary);
             saved = itemView.findViewById(R.id.news_save_button);
             background = itemView.findViewById(R.id.news_background);
+            succeded = itemView.findViewById(R.id.succededText);
         }
     }
 }

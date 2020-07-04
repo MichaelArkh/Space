@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import com.squareup.picasso.Picasso;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class RocketItemAdapter extends RecyclerView.Adapter {
@@ -52,6 +54,11 @@ public class RocketItemAdapter extends RecyclerView.Adapter {
 
         //new SetImage(itemholder.getBackground()).execute(items.get(position).getImage());
         Picasso.get().load(items.get(position).getImage()).into(itemholder.getBackground());
+        if(items.get(position).getImage().contains("https") || items.get(position).getImage().contains("http")) {
+            Picasso.get().load(items.get(position).getImage()).into(itemholder.getBackground());
+        } else {
+            Picasso.get().load("https://launchlibrary1.nyc3.digitaloceanspaces.com/RocketImages/placeholder_1920.png").into(itemholder.getBackground());
+        }
         itemholder.getAuthor().setText(items.get(position).getLocation());
         itemholder.getTitle().setText(items.get(position).getName());
         itemholder.getDate().setText(items.get(position).getStartTime().toString());
@@ -69,6 +76,18 @@ public class RocketItemAdapter extends RecyclerView.Adapter {
                 parentContext.startActivity(newIntent);
             }
         });
+
+        if(items.get(position).getStartTime().before(new Date())){
+            if(items.get(position).getStatus() == 3){
+                itemholder.getSucceded().setText("Succeded");
+                itemholder.getSucceded().setTextColor(Color.GREEN);
+            } else {
+                itemholder.getSucceded().setText("Failed");
+                itemholder.getSucceded().setTextColor(Color.RED);
+            }
+        } else {
+            itemholder.getSucceded().setText("");
+        }
     }
 
     @Override
@@ -78,8 +97,12 @@ public class RocketItemAdapter extends RecyclerView.Adapter {
 
     public static class RocketItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView background;
-        private TextView title, author, date, summary;
+        private TextView title, author, date, summary, succeded;
         private Button saved;
+
+        public TextView getSucceded() {
+            return succeded;
+        }
 
         public ImageView getBackground() {
             return background;
@@ -113,6 +136,7 @@ public class RocketItemAdapter extends RecyclerView.Adapter {
             summary = itemView.findViewById(R.id.article_summary);
             saved = itemView.findViewById(R.id.news_save_button);
             background = itemView.findViewById(R.id.news_background);
+            succeded = itemView.findViewById(R.id.succededText);
         }
     }
 }

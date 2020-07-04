@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -23,8 +24,12 @@ import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class SavedItemAdapter extends RecyclerView.Adapter  {
     public ArrayList<SavedItem> items;
@@ -80,6 +85,23 @@ public class SavedItemAdapter extends RecyclerView.Adapter  {
                 catch (Exception e) { }
             }
         });
+        try {
+            DateFormat format = new SimpleDateFormat("E MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+            Date date = format.parse(items.get(position).getDate());
+            if (date.before(new Date()) && items.get(position).getStatus() != -1) {
+                if (items.get(position).getStatus() == 3) {
+                    itemholder.getSucceded().setText("Succeded");
+                    itemholder.getSucceded().setTextColor(Color.GREEN);
+                } else {
+                    itemholder.getSucceded().setText("Failed");
+                    itemholder.getSucceded().setTextColor(Color.RED);
+                }
+            } else {
+                itemholder.getSucceded().setText("");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -89,8 +111,12 @@ public class SavedItemAdapter extends RecyclerView.Adapter  {
 
     public static class SavedItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView background;
-        private TextView title, author, date, summary;
+        private TextView title, author, date, summary, succeded;
         private Button saved;
+
+        public TextView getSucceded() {
+            return succeded;
+        }
 
         public ImageView getBackground() {
             return background;
@@ -125,6 +151,7 @@ public class SavedItemAdapter extends RecyclerView.Adapter  {
             saved = itemView.findViewById(R.id.news_save_button);
             saved.setText("Delete");
             background = itemView.findViewById(R.id.news_background);
+            succeded = itemView.findViewById(R.id.succededText);
         }
     }
 }

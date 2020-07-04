@@ -8,14 +8,14 @@ import androidx.annotation.Nullable;
 
 public class SavedItemDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "items.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 3;
     private static final String table = "item";
 
     private static final String CREATE_TABLE =
             "create table " + table + " (_id integer primary key autoincrement, "
                     + "title text, author text, "
                     + "date text, summary text, "
-                    + "image text, click_link text);";
+                    + "image text, click_link text, status integer);";
 
     public SavedItemDBHelper(@Nullable Context context){
             super(context, DATABASE_NAME, null, DATABASE_VERSION);

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -156,7 +157,16 @@ public class DataManager {
         protected String doInBackground(String... strings) {
             String response = null;
             try {
-                URL url = new URL("https://launchlibrary.net/1.4/launch/next/50");
+                Date now = new Date();
+                if(c.getSharedPreferences("searchPref", Context.MODE_PRIVATE).contains("startDate") && c.getSharedPreferences("searchPref", Context.MODE_PRIVATE).getBoolean("showBefore", false)){
+                    String obj = c.getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("startDate", new Date().toString());
+                    Gson g = new Gson();
+                    now = g.fromJson(obj, Date.class);
+                }
+                DateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+                String date = format.format(now);
+                int limit = c.getSharedPreferences("searchPref", Context.MODE_PRIVATE).getInt("rocketCount", 20);
+                URL url = new URL("https://launchlibrary.net/1.4/launch/?startdate=" + date + "&limit=" + limit);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 BufferedReader reader =
                         new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -174,7 +184,12 @@ public class DataManager {
 
                 JSONArray main = values.getJSONArray("launches");
                 int count = values.getInt("count");
-                for (int i = 0; i < count; i++) {
+                int rocketCount = c.getSharedPreferences("searchPref", Context.MODE_PRIVATE).getInt("rocketCount", 20);
+                Log.e("test", rocketCount + " " + count);
+                if(rocketCount > count){
+                    rocketCount = count;
+                }
+                for (int i = 0; i < rocketCount; i++) {
                     JSONObject one = main.getJSONObject(i);
                     //Location Data
                     JSONObject locationdata = one.getJSONObject("location");
@@ -206,9 +221,14 @@ public class DataManager {
                     //Date
                     DateFormat format = new SimpleDateFormat("MMMMM dd, yyyy HH:mm:ss z", Locale.ENGLISH);
                     Date date = format.parse(one.getString("windowstart"));
+                    //status 3 -> good 4 -> fail
+                    int status = one.getInt("status");
+                    boolean succeded = false;
+                    if(date.before(new Date())) {
+                        succeded = (status == 3) || (status == 1);
+                    }
 
-
-                    ret.add(new RocketItem(date, name, summary, image, location, latLng, rocketName, redirectUrl));
+                    ret.add(new RocketItem(date, name, summary, image, location, latLng, rocketName, redirectUrl, status));
                 }
                 Gson g = new Gson();
                 Writer write = new FileWriter(new File(c.getFilesDir(), rocketLocation));
@@ -259,10 +279,11 @@ public class DataManager {
                 JSONObject values = new JSONObject(result);
                 JSONArray main = values.getJSONArray("articles");
                 int maxCount = values.getInt("totalResults");
-                if(maxCount > 10) {
-                    maxCount = 10;
+                int newsCount = a.getSharedPreferences("searchPref", Context.MODE_PRIVATE).getInt("newsCount", 20);
+                if(newsCount > maxCount) {
+                    newsCount = maxCount;
                 }
-                for (int i = 0; i < maxCount; i++) {
+                for (int i = 0; i < newsCount; i++) {
                     JSONObject one = main.getJSONObject(i);
                     String author = one.getString("author");
                     String title = one.getString("title");
