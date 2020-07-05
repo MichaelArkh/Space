@@ -65,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "No internet connection found", Toast.LENGTH_LONG).show();
         }
         createNotificationChannel();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         SavedViewModel.loadFromDB(this);
         SavedViewModel.notifier(this);
     }
@@ -84,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
     }
+
 
     public void isInternetAvailable() {
         Thread a = new Thread(new Runnable() {
