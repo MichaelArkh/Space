@@ -45,7 +45,7 @@ public class settings extends Fragment {
     private RadioButton custom;
     private Button date;
     private EditText input, newsCount, rocketCount;
-    private CheckBox check;
+    private CheckBox check, notificatons;
     private TextView dateText;
     private View root;
 
@@ -93,6 +93,7 @@ public class settings extends Fragment {
         newsCount = root.findViewById(R.id.newsItemCount);
         rocketCount = root.findViewById(R.id.rocketItemCount);
         check = root.findViewById(R.id.showPrevious);
+        notificatons = root.findViewById(R.id.notificationsEnabled);
     }
 
     private void registerListeners(final View root){
@@ -132,6 +133,12 @@ public class settings extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).edit().putBoolean("showBefore", isChecked).apply();
+            }
+        });
+        notificatons.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).edit().putBoolean("notificationsEnabled", isChecked).apply();
             }
         });
     }
@@ -180,6 +187,7 @@ public class settings extends Fragment {
         this.rocketCount.setText(String.valueOf(rocketCount));
         //Checkbox
         check.setChecked(root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getBoolean("showBefore", false));
+        notificatons.setChecked(root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getBoolean("notificationsEnabled", true));
     }
 
 }

@@ -1,7 +1,16 @@
 package com.example.michaelarkhangelskiy_final.database;
 
+import android.util.Log;
+
+import androidx.annotation.Nullable;
+
 import com.example.michaelarkhangelskiy_final.ui.dashboard.RocketItem;
 import com.example.michaelarkhangelskiy_final.ui.home.NewsItem;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class SavedItem {
@@ -47,6 +56,16 @@ public class SavedItem {
     }
 
     public String getDate() {
+        return date;
+    }
+
+    public Date getDateObject() {
+        Date date = new Date();
+        try {
+            DateFormat format = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+            date = format.parse(getDate());
+            Log.e("test", date.toString());
+        } catch (Exception e) {}
         return date;
     }
 

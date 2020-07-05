@@ -262,7 +262,7 @@ public class DataManager {
                 String date = format1.format(currentTime);
                 String search = a.getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("searchPref", "nasa");
                 //search = "nasa";
-                URL url = new URL("https://newsapi.org/v2/everything?q=" + search + "&language=en&from=" + date +"&sortBy=popularity&apiKey=" + key);
+                URL url = new URL("https://newsapi.org/v2/everything?q=" + search + "&language=en&from=" + date +"&sortBy=popularity&pageSize=100&apiKey=" + key);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 BufferedReader reader =
                         new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -278,7 +278,7 @@ public class DataManager {
                 ArrayList<NewsItem> ret = new ArrayList<NewsItem>();
                 JSONObject values = new JSONObject(result);
                 JSONArray main = values.getJSONArray("articles");
-                int maxCount = values.getInt("totalResults");
+                int maxCount = main.length();
                 int newsCount = a.getSharedPreferences("searchPref", Context.MODE_PRIVATE).getInt("newsCount", 20);
                 if(newsCount > maxCount) {
                     newsCount = maxCount;

@@ -6,4 +6,6 @@
     <string name="title_settings">Settings</string>
     <string name="title_saved">Saves</string>
     <string name="people">There are currently %1$d people in space</string>
+    <string name="channel_name">main</string>
+    <string name="channel_description">main channel</string>
 </resources>

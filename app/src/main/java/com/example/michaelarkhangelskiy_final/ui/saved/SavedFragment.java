@@ -1,5 +1,7 @@
 package com.example.michaelarkhangelskiy_final.ui.saved;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
@@ -50,6 +52,7 @@ public class SavedFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(root.getContext());
         rv.setLayoutManager(layoutManager);
         rv.setAdapter(ia);
+        SavedViewModel.notifier(root.getContext());
     }
 
 
