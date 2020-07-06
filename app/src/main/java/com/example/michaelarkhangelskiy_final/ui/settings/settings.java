@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -27,10 +28,14 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.michaelarkhangelskiy_final.MainActivity;
 import com.example.michaelarkhangelskiy_final.R;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -43,7 +48,7 @@ public class settings extends Fragment {
     private RadioButton space;
     private RadioButton ISS;
     private RadioButton custom;
-    private Button date;
+    private Button date, register, login, saveData, downloadData;
     private EditText input, newsCount, rocketCount;
     private CheckBox check, notificatons;
     private TextView dateText;
@@ -94,9 +99,13 @@ public class settings extends Fragment {
         rocketCount = root.findViewById(R.id.rocketItemCount);
         check = root.findViewById(R.id.showPrevious);
         notificatons = root.findViewById(R.id.notificationsEnabled);
+        register = root.findViewById(R.id.registerButton);
+        login = root.findViewById(R.id.loginButton);
+        downloadData = root.findViewById(R.id.downloadData);
+        saveData = root.findViewById(R.id.saveData);
     }
 
-    private void registerListeners(final View root){
+    public void registerListeners(final View root){
         searchTerm.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -141,6 +150,86 @@ public class settings extends Fragment {
                 root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).edit().putBoolean("notificationsEnabled", isChecked).apply();
             }
         });
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getParentFragmentManager();
+                RegisterFrag rg = new RegisterFrag("Register");
+                rg.show(fm, "register");
+            }
+        });
+        if(root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).contains("loginToken")){
+            login.setText("Logout: " + root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("loginUser", ""));
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        JsonObject json = new JsonObject();
+                        json.addProperty("token", root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("loginToken", ""));
+                        json.addProperty("type", "2");
+                        Ion.with(v.getContext())
+                                .load("https://testing.mgelsk.com")
+                                .setJsonObjectBody(json)
+                                .asJsonObject()
+                                .setCallback(new FutureCallback<JsonObject>() {
+                                    @Override
+                                    public void onCompleted(Exception e, JsonObject result) {
+                                        // do stuff with the result or error
+                                        Log.e("test", result.toString());
+                                        if (result.get("success").getAsInt() == 1) {
+                                            SharedPreferences prefs = root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = prefs.edit();
+                                            editor.remove("loginToken");
+                                            editor.remove("loginUser");
+                                            editor.commit();
+                                            Toast.makeText(v.getContext(), result.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                                            login.setText("Login");
+                                        } else {
+                                            SharedPreferences prefs = root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = prefs.edit();
+                                            editor.remove("loginToken");
+                                            editor.remove("loginUser");
+                                            editor.commit();
+                                            Toast.makeText(v.getContext(), result.get("message").getAsString(), Toast.LENGTH_SHORT).show();
+                                        }
+                                        registerListeners(root);
+                                    }
+                                });
+
+                    } catch (Exception e) {}
+                }
+            });
+            saveData.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            downloadData.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+            saveData.setEnabled(true);
+            downloadData.setEnabled(true);
+        } else {
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fm = getParentFragmentManager();
+                    RegisterFrag rg = new RegisterFrag(new RegisterFrag.SubmitListener() {
+                        @Override
+                        public void finishedSave() {
+                            registerListeners(root);
+                        }
+                    }, "Login");
+                    rg.show(fm, "login");
+                }
+            });
+            saveData.setEnabled(false);
+            downloadData.setEnabled(false);
+        }
     }
 
     @Override
