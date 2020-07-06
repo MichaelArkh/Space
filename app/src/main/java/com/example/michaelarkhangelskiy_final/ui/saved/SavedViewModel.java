@@ -12,6 +12,7 @@ import com.example.michaelarkhangelskiy_final.database.SavedItemDataSource;
 import com.example.michaelarkhangelskiy_final.ui.dashboard.RocketItem;
 import com.example.michaelarkhangelskiy_final.ui.home.NewsItem;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
@@ -53,6 +54,25 @@ public class SavedViewModel extends ViewModel {
             converted.setItemId(ds.getLastID());
             ds.insertItem(converted);
             itemList.add(converted);
+            ds.close();
+        } catch (Exception e){}
+        if(SavedFragment.ia != null){
+            SavedFragment.ia.newList(itemList);
+        }
+    }
+
+    /**
+     * Replaces the current list with the new list
+     * @param newItems the new list
+     * @param context the required context
+     */
+    public static void newList(ArrayList<SavedItem> newItems, Context context){
+        try {
+            SavedItemDataSource ds = new SavedItemDataSource(context);
+            ds.open();
+            itemList.forEach(ds::removeItem);
+            itemList = newItems;
+            newItems.forEach(ds::insertItem);
             ds.close();
         } catch (Exception e){}
         if(SavedFragment.ia != null){

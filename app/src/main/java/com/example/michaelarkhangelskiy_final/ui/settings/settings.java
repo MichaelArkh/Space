@@ -34,12 +34,14 @@ import com.example.michaelarkhangelskiy_final.MainActivity;
 import com.example.michaelarkhangelskiy_final.R;
 import com.example.michaelarkhangelskiy_final.database.SavedItem;
 import com.example.michaelarkhangelskiy_final.database.SavedItemDataSource;
+import com.example.michaelarkhangelskiy_final.ui.saved.SavedViewModel;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -235,7 +237,6 @@ public class settings extends Fragment {
                         json.add("dataArr", json1);
                         json.addProperty("token", root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("loginToken", ""));
                         json.addProperty("type", "4");
-                        Log.e("test", json.toString());
                         Ion.with(v.getContext())
                                 .load("https://testing.mgelsk.com")
                                 .setJsonObjectBody(json)
@@ -260,7 +261,37 @@ public class settings extends Fragment {
             downloadData.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    JsonObject json = new JsonObject();
+                    json.addProperty("token", root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("loginToken", ""));
+                    json.addProperty("type", "3");
+                    Ion.with(v.getContext())
+                            .load("https://testing.mgelsk.com")
+                            .setJsonObjectBody(json)
+                            .asJsonObject()
+                            .setCallback(new FutureCallback<JsonObject>() {
+                                @Override
+                                public void onCompleted(Exception e, JsonObject result) {
+                                    // do stuff with the result or error
+                                    Log.e("test", result.toString());
+                                    ArrayList<SavedItem> mylist = new ArrayList<SavedItem>();
+                                    JsonArray arr = result.getAsJsonArray("data");
+                                    arr.forEach(b -> {
+                                        SavedItem si = new SavedItem();
+                                        JsonObject ob = b.getAsJsonObject();
+                                        si.setItemId(ob.get("localItemID").getAsInt());
+                                        si.setDate(ob.get("date").getAsString());
+                                        si.setStatus(ob.get("status").getAsInt());
+                                        si.setClicked(ob.get("click_link").getAsString());
+                                        si.setTitle(ob.get("title").getAsString());
+                                        si.setAuthor(ob.get("author").getAsString());
+                                        si.setSummary(ob.get("summary").getAsString());
+                                        si.setImage(ob.get("image").getAsString());
+                                        mylist.add(si);
+                                    });
+                                    SavedViewModel.newList(mylist, v.getContext());
+                                    Toast.makeText(v.getContext(), "Download Success", Toast.LENGTH_SHORT).show();
+                                }
+                            });
                 }
             });
             saveData.setEnabled(true);
