@@ -28,6 +28,9 @@ import com.example.michaelarkhangelskiy_final.ui.home.NewsItemAdapter;
 import com.example.michaelarkhangelskiy_final.ui.notifications.NotificationsViewModel;
 import com.example.michaelarkhangelskiy_final.ui.settings.SettingsViewModel;
 
+/**
+ * The fragment for the saved objects
+ */
 public class SavedFragment extends Fragment {
 
     private SavedViewModel savedViewModel;
@@ -35,6 +38,14 @@ public class SavedFragment extends Fragment {
     static SavedItemAdapter ia;
     static SavedItemDataSource ds;
 
+    /**
+     * Creates the view for the fragment
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the view
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         savedViewModel = new ViewModelProvider(this).get(SavedViewModel.class);
@@ -43,6 +54,10 @@ public class SavedFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Loads the root view for the object
+     * @param root the root view
+     */
     private void loadView(View root){
         ds = new SavedItemDataSource(root.getContext());
         SavedViewModel.loadFromDB(root.getContext());

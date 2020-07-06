@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+/**
+ * Database class
+ */
 public class SavedItemDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "items.db";
     private static final int DATABASE_VERSION = 3;
@@ -17,15 +20,29 @@ public class SavedItemDBHelper extends SQLiteOpenHelper {
                     + "date text, summary text, "
                     + "image text, click_link text, status integer);";
 
+    /**
+     * Required constructor
+     * @param context the context
+     */
     public SavedItemDBHelper(@Nullable Context context){
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    /**
+     * Creates the table for the db
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
     }
 
+    /**
+     * If database structure changes this method is called.
+     * @param db
+     * @param oldVersion
+     * @param newVersion
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS item");

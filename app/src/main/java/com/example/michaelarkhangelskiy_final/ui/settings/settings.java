@@ -44,6 +44,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * The settings class that controls settings for the app
+ */
 public class settings extends Fragment {
 
     private SettingsViewModel settingsViewModel;
@@ -58,9 +61,13 @@ public class settings extends Fragment {
     private TextView dateText;
     private View root;
 
-
-
-
+    /**
+     * Inflates the view
+     * @param inflater the inflator
+     * @param container the container
+     * @param savedInstanceState the savedInstanceState
+     * @return the root view
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         settingsViewModel = new ViewModelProvider(this).get(SettingsViewModel.class);
@@ -72,6 +79,9 @@ public class settings extends Fragment {
         return root;
     }
 
+    /**
+     * Lifecycle method that stores all chosen values into sharedpreferences
+     */
     @Override
     public void onPause() {
         super.onPause();
@@ -90,6 +100,10 @@ public class settings extends Fragment {
         MainActivity.dm.generateFiles();
     }
 
+    /**
+     * Initialized the view
+     * @param root the root view
+     */
     private void initView(View root){
         nasa = root.findViewById(R.id.radioNasa);
         space = root.findViewById(R.id.radioSpace);
@@ -109,6 +123,10 @@ public class settings extends Fragment {
         saveData = root.findViewById(R.id.saveData);
     }
 
+    /**
+     * Registers listeners for the view
+     * @param root the root view
+     */
     public void registerListeners(final View root){
         searchTerm.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -266,6 +284,12 @@ public class settings extends Fragment {
         }
     }
 
+    /**
+     * Attains the result from the dateFragment
+     * @param requestCode the resquestcode
+     * @param resultCode the resultcode
+     * @param data the date attained
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         // check for the results
@@ -281,6 +305,10 @@ public class settings extends Fragment {
         }
     }
 
+    /**
+     * Sets default values for elements in the view
+     * @param root the root view
+     */
     private void setDefault(final View root) {
         // RadioButtons
         String searchPref = root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("searchPref", "nasa");

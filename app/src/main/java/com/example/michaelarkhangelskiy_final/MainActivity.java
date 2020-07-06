@@ -44,6 +44,11 @@ public class MainActivity extends AppCompatActivity {
     boolean internet;
     public static DataManager dm;
 
+    /**
+     * Sets up the general layout for the app.
+     *
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +72,9 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
     }
 
+    /**
+     * Sends a push notification when the user leaves the app.
+     */
     @Override
     protected void onPause() {
         super.onPause();
@@ -74,6 +82,9 @@ public class MainActivity extends AppCompatActivity {
         SavedViewModel.notifier(this);
     }
 
+    /**
+     * Required method to set up push notifications.
+     */
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -90,7 +101,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Checks if internet is available and would not load the app without it.
+     */
     public void isInternetAvailable() {
         Thread a = new Thread(new Runnable() {
             @Override

@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
 
+/**
+ * The view model for the saved objects
+ */
 public class SavedViewModel extends ViewModel {
     public static ArrayList<SavedItem> itemList = new ArrayList<SavedItem>();
 
@@ -23,6 +26,10 @@ public class SavedViewModel extends ViewModel {
 
     }
 
+    /**
+     * Loads items from the database
+     * @param context the required context
+     */
     public static void loadFromDB(Context context){
         itemList.clear();
         try {
@@ -33,6 +40,11 @@ public class SavedViewModel extends ViewModel {
         } catch (Exception e) {}
     }
 
+    /**
+     * Adds an newsitem to the database
+     * @param item the item to add
+     * @param context required context
+     */
     public static void addedItem(NewsItem item, Context context){
         try {
             SavedItemDataSource ds = new SavedItemDataSource(context);
@@ -48,6 +60,11 @@ public class SavedViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Adds an rocketitem to the database
+     * @param item the item to add
+     * @param context required context
+     */
     public static void addedItem(RocketItem item, Context context){
         try {
             SavedItemDataSource ds = new SavedItemDataSource(context);
@@ -63,10 +80,18 @@ public class SavedViewModel extends ViewModel {
         }
     }
 
+    /**
+     * removes an item from the list
+     * @param removed the item to remove
+     */
     public static void removeItem(SavedItem removed){
         itemList.remove(removed);
     }
 
+    /**
+     * Push notification generator
+     * @param c the required context
+     */
     public static void notifier(Context c){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(c, "saved")
                 .setSmallIcon(R.drawable.sputnik)
@@ -79,6 +104,10 @@ public class SavedViewModel extends ViewModel {
         }
     }
 
+    /**
+     * Retreives the saveditem with the earliestdate
+     * @return the earliestdate
+     */
     private static SavedItem earlyDate(){
         Optional<SavedItem> i = itemList.stream().filter(e -> e.getStatus() > -1).filter(e -> new Date().before(e.getDateObject())).min((e, b) -> {
             if(e.getDateObject().before(b.getDateObject())){

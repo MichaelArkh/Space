@@ -23,7 +23,9 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-
+/**
+ * The register/login fragment
+ */
 public class RegisterFrag extends DialogFragment {
     SubmitListener sub;
     String type;
@@ -31,29 +33,56 @@ public class RegisterFrag extends DialogFragment {
     EditText user, pass;
     TextView tv;
 
+    /**
+     * required empty constructor
+     */
     public RegisterFrag() {
         // Required empty public constructor
     }
 
+    /**
+     * The constructor for a string to designate if its for logging in or registering
+     * @param type of fragment
+     */
     public RegisterFrag( String type) {
         //this.sub = listen;
         this.type = type;
     }
+
+    /**
+     * The constructor for a string to designate if its for logging in or registering and a listener
+     * @param listen the listener when button is pushed
+     * @param type of fragment
+     */
     public RegisterFrag(SubmitListener listen, String type) {
         this.sub = listen;
         this.type = type;
     }
 
 
+    /**
+     * The submitlistener when button is pushed
+     */
     public interface SubmitListener {
         void finishedSave();
     }
 
+    /**
+     * Lifecycle method
+     * @param savedInstanceState the savedInstanceState
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Creates the view for fragment
+     * @param inflater the inflator
+     * @param container the container
+     * @param savedInstanceState the savedInstanceState
+     * @return the view
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,6 +93,10 @@ public class RegisterFrag extends DialogFragment {
         return view;
     }
 
+    /**
+     * Initializes the view
+     * @param view the root view
+     */
     private void initView(View view){
         tv = view.findViewById(R.id.textViewName);
         submit = view.findViewById(R.id.submitButton);
@@ -71,6 +104,11 @@ public class RegisterFrag extends DialogFragment {
         pass = view.findViewById(R.id.savePass);
         tv.setText(type);
     }
+
+    /**
+     * Initializes the submit button
+     * @param view the root view
+     */
     private void initButton(View view){
         if(type.equals("Register")) {
             submit.setOnClickListener(new View.OnClickListener() {

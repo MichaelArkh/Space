@@ -31,20 +31,44 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * The type Saved item adapter.
+ */
 public class SavedItemAdapter extends RecyclerView.Adapter  {
+    /**
+     * The Items.
+     */
     public ArrayList<SavedItem> items;
     private Context parentContext;
 
+    /**
+     * Instantiates a new Saved item adapter.
+     *
+     * @param items         the items
+     * @param parentContext the parent context
+     */
     public SavedItemAdapter(List<SavedItem> items, Context parentContext) {
         this.items = new ArrayList<SavedItem>(items);
         this.parentContext = parentContext;
     }
 
+    /**
+     * Adds a new list.
+     *
+     * @param list the list
+     */
     public void newList(ArrayList<SavedItem> list){
         items = list;
         notifyDataSetChanged();
     }
 
+    /**
+     * Inflates the layout
+     *
+     * @param parent the parent
+     * @param viewType the viewtype
+     * @return the Viewholder
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,6 +76,11 @@ public class SavedItemAdapter extends RecyclerView.Adapter  {
         return new SavedItemViewHolder(v);
     }
 
+    /**
+     * Sets up actions and images for the recyclerviewcell
+     * @param holder the holder
+     * @param position the position
+     */
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, final int position) {
         final SavedItemViewHolder itemholder = (SavedItemViewHolder) holder;
@@ -109,39 +138,82 @@ public class SavedItemAdapter extends RecyclerView.Adapter  {
         return items.size();
     }
 
+    /**
+     * The type Saved item view holder.
+     */
     public static class SavedItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView background;
         private TextView title, author, date, summary, succeded;
         private Button saved;
 
+        /**
+         * Gets succeded.
+         *
+         * @return the succeded
+         */
         public TextView getSucceded() {
             return succeded;
         }
 
+        /**
+         * Gets background.
+         *
+         * @return the background
+         */
         public ImageView getBackground() {
             return background;
         }
 
+        /**
+         * Gets title.
+         *
+         * @return the title
+         */
         public TextView getTitle() {
             return title;
         }
 
+        /**
+         * Gets author.
+         *
+         * @return the author
+         */
         public TextView getAuthor() {
             return author;
         }
 
+        /**
+         * Gets date.
+         *
+         * @return the date
+         */
         public TextView getDate() {
             return date;
         }
 
+        /**
+         * Gets summary.
+         *
+         * @return the summary
+         */
         public TextView getSummary() {
             return summary;
         }
 
+        /**
+         * Gets saved.
+         *
+         * @return the saved
+         */
         public Button getSaved() {
             return saved;
         }
 
+        /**
+         * Instantiates a new Saved item view holder.
+         *
+         * @param itemView the item view
+         */
         public SavedItemViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.article_title);

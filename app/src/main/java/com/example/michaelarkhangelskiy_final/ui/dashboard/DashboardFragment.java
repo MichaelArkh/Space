@@ -25,12 +25,18 @@ import com.example.michaelarkhangelskiy_final.R;
 import com.example.michaelarkhangelskiy_final.ui.home.HomeViewModel;
 import com.example.michaelarkhangelskiy_final.ui.home.NewsItemAdapter;
 
+/**
+ * The fragment for all the rocketItems
+ */
 public class DashboardFragment extends Fragment {
 
     private DashboardViewModel dashboardViewModel;
     private RecyclerView rv;
     private RocketItemAdapter ia;
     private View root;
+    /**
+     * Notifier for when async loading is done
+     */
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -39,6 +45,14 @@ public class DashboardFragment extends Fragment {
         }
     };
 
+    /**
+     * Creates the view for the fragment
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the view
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
@@ -49,6 +63,10 @@ public class DashboardFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Loads the view the layout
+     * @param root the root view
+     */
     private void loadView(View root){
         ia = new RocketItemAdapter(DataManager.loadRocket(root.getContext()), root.getContext());
         rv = root.findViewById(R.id.rocket_recycle);
@@ -57,6 +75,10 @@ public class DashboardFragment extends Fragment {
         rv.setAdapter(ia);
     }
 
+    /**
+     * Registers broadcasts for the root view
+     * @param root the root view
+     */
     private void registerBroadcast(View root){
         LocalBroadcastManager.getInstance(root.getContext()).registerReceiver(receiver,
                 new IntentFilter("Rocket-Finished"));

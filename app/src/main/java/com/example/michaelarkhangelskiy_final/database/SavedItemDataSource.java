@@ -12,24 +12,44 @@ import android.util.Log;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
+/**
+ * The datasource used for interacting with the database
+ */
 public class SavedItemDataSource {
     private SQLiteDatabase database;
     private SavedItemDBHelper helper;
     private String table;
 
+
+    /**
+     * Instantiates a new Saved item data source.
+     *
+     * @param context the context
+     */
     public SavedItemDataSource(Context context) {
         helper = new SavedItemDBHelper(context);
         table = helper.getTable();
     }
 
+    /**
+     * Opens the database
+     * @throws SQLException
+     */
     public void open() throws SQLException {
         database = helper.getWritableDatabase();
     }
 
+    /**
+     * Closes the database
+     */
     public void close() {
         helper.close();
     }
 
+    /**
+     * Gets all stored items
+     * @return all the stored items
+     */
     public ArrayList<SavedItem> getItems() {
         ArrayList<SavedItem> items = new ArrayList<SavedItem>();
         try {
@@ -47,6 +67,12 @@ public class SavedItemDataSource {
         return items;
     }
 
+    /**
+     * Gets items according to the parameters
+     * @param sortBy
+     * @param sortOrder
+     * @return The saved items
+     */
     public ArrayList<SavedItem> getItems(String sortBy, String sortOrder){
         ArrayList<SavedItem> items = new ArrayList<SavedItem>();
         try {
@@ -64,6 +90,11 @@ public class SavedItemDataSource {
         return items;
     }
 
+    /**
+     * Items an item
+     * @param i the item to insert
+     * @return if succeeded
+     */
     public boolean insertItem(SavedItem i) {
         boolean succ = false;
         try {
@@ -91,6 +122,11 @@ public class SavedItemDataSource {
         return succ;
     }
 
+    /**
+     * Updates an item
+     * @param i the item to update
+     * @return if succeeded
+     */
     public boolean updateItem(SavedItem i){
         boolean succ = false;
         try {
@@ -111,6 +147,11 @@ public class SavedItemDataSource {
         return succ;
     }
 
+    /**
+     * Gets an item from an id
+     * @param id The id to search
+     * @return The item found
+     */
     public SavedItem getItem(int id){
         SavedItem i = new SavedItem();
         String query = "SELECT  * FROM " + table + " WHERE _id =" + id;
@@ -136,6 +177,11 @@ public class SavedItemDataSource {
         return i;
     }
 
+    /**
+     * Removes an item
+     * @param i the item to remove
+     * @return if succeeded
+     */
     public boolean removeItem(SavedItem i){
         boolean succ = false;
         try {
@@ -148,6 +194,10 @@ public class SavedItemDataSource {
         return succ;
     }
 
+    /**
+     * Gets the last item id in the database
+     * @return The last item id.
+     */
     public int getLastID() {
         int lastId;
         try {

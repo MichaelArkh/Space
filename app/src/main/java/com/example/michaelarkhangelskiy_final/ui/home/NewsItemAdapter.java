@@ -24,18 +24,40 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type News item adapter.
+ */
 public class NewsItemAdapter extends RecyclerView.Adapter {
     private ArrayList<NewsItem> items;
     private Context parentContext;
 
+    /**
+     * Instantiates a new News item adapter.
+     *
+     * @param items         the items
+     * @param parentContext the parent context
+     */
     public NewsItemAdapter(List<NewsItem> items, Context parentContext) {
         this.items = new ArrayList<NewsItem>(items);
         this.parentContext = parentContext;
     }
+
+    /**
+     * Sets new news items.
+     *
+     * @param a the news item
+     */
     public void setNewItems(List<NewsItem> a) {
         items = new ArrayList<NewsItem>(a);
     }
 
+    /**
+     * Returns the view holder.
+     *
+     * @param parent the parent
+     * @param viewType the viewtype
+     * @return the viewholder
+     */
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -43,6 +65,11 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
         return new NewsItemViewHolder(v);
     }
 
+    /**
+     * Sets up actions and images for the recyclerviewcell
+     * @param holder the holder
+     * @param position the position
+     */
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         final NewsItemViewHolder itemholder = (NewsItemViewHolder) holder;
@@ -71,44 +98,92 @@ public class NewsItemAdapter extends RecyclerView.Adapter {
         itemholder.getSucceded().setText("");
     }
 
+    /**
+     * returns the item count
+     *
+     * @return the item count
+     */
     @Override
     public int getItemCount() {
         return items.size();
     }
 
+    /**
+     * The type News item view holder.
+     */
     public static class NewsItemViewHolder extends RecyclerView.ViewHolder {
         private ImageView background;
         private TextView title, author, date, summary, succeded;
         private Button saved;
 
+        /**
+         * Gets succeded.
+         *
+         * @return the succeded
+         */
         public TextView getSucceded() {
             return succeded;
         }
 
+        /**
+         * Gets background.
+         *
+         * @return the background
+         */
         public ImageView getBackground() {
             return background;
         }
 
+        /**
+         * Gets title.
+         *
+         * @return the title
+         */
         public TextView getTitle() {
             return title;
         }
 
+        /**
+         * Gets author.
+         *
+         * @return the author
+         */
         public TextView getAuthor() {
             return author;
         }
 
+        /**
+         * Gets date.
+         *
+         * @return the date
+         */
         public TextView getDate() {
             return date;
         }
 
+        /**
+         * Gets summary.
+         *
+         * @return the summary
+         */
         public TextView getSummary() {
             return summary;
         }
 
+        /**
+         * Gets saved.
+         *
+         * @return the saved
+         */
         public Button getSaved() {
             return saved;
         }
 
+        /**
+         * Instantiates a new News item view holder.
+         *
+         * @param itemView the item view
+         */
         public NewsItemViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.article_title);

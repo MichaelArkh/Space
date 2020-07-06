@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * The view model for news objects
+ */
 public class HomeViewModel extends ViewModel {
 
     public HomeViewModel() { }

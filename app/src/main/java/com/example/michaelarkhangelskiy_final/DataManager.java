@@ -43,6 +43,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * General class for loading and storing data gained from online API's.
+ */
 public class DataManager {
 
     static public final String newsLocation = "news.json";
@@ -50,6 +53,10 @@ public class DataManager {
     static public final String ISSLocation = "ISS.json";
     private Context c;
 
+    /**
+     * Checks if storage files are already on the device. Would create them if they arent.
+     * @param c Context required by this class
+     */
     public DataManager(Context c){
         this.c = c;
         //Using GSON to store and load files
@@ -64,6 +71,9 @@ public class DataManager {
         }
     }
 
+    /**
+     * Starting method for loading all the data for the files.
+     */
     public void generateFiles(){
         Toast.makeText(c, "Currently loading data from online", Toast.LENGTH_SHORT).show();
         new ISSTask().execute();
@@ -71,10 +81,18 @@ public class DataManager {
         new NewsTask(c).execute();
     }
 
+    /**
+     * Seperate method to only load ISS files
+     */
     public void generateISS() {
         new ISSTask().execute();
     }
 
+    /**
+     * Returns news files from the device
+     * @param c Required Context
+     * @return The list of newsItems stored on the device
+     */
     static public List<NewsItem> loadNews(Context c){
         try {
             Gson gson = new Gson();
@@ -85,6 +103,11 @@ public class DataManager {
         return new ArrayList<NewsItem>();
     }
 
+    /**
+     * Returns rocket files from the device
+     * @param c Required Context
+     * @return The list of rocketItems stored on the device
+     */
     static public List<RocketItem> loadRocket(Context c){
         try {
             Gson gson = new Gson();
@@ -95,6 +118,11 @@ public class DataManager {
         return new ArrayList<RocketItem>();
     }
 
+    /**
+     * Returns ISS files from the device
+     * @param c Required Context
+     * @return The ISS files stored on the device
+     */
     static public ISS loadISS(Context c){
         try {
             Gson gson = new Gson();
@@ -105,6 +133,9 @@ public class DataManager {
         return new ISS(new String[0], new LatLng(0,0));
     }
 
+    /**
+     * Asynchronous task the loads all the ISS data from the web
+     */
     class ISSTask extends AsyncTask<String, Void, String[]> {
 
         @Override
@@ -153,7 +184,9 @@ public class DataManager {
         }
     }
 
-
+    /**
+     * Asynchronous task the loads all the rocket data from the web
+     */
     class RocketTask extends AsyncTask<String, Void, String> {
 
         @Override
@@ -244,6 +277,9 @@ public class DataManager {
         }
     }
 
+    /**
+     * Asynchronous task the loads all the news data from the web
+     */
     class NewsTask extends AsyncTask<String, Void, String> {
         Context a;
 
@@ -306,64 +342,6 @@ public class DataManager {
             }
             Intent intent = new Intent("News-Finished");
             LocalBroadcastManager.getInstance(c).sendBroadcast(intent);
-        }
-    }
-
-    public static class RegisterTask extends AsyncTask<String, Void, String> {
-
-        public RegisterTask() { }
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            String response = null;
-            Log.e("test", strings.toString());
-            try {
-                URL url = new URL("https://testing.mgelsk.com/"); //Enter URL here
-//                HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
-//                httpURLConnection.setDoOutput(true);
-//                httpURLConnection.setRequestMethod("POST");
-//                httpURLConnection.setRequestProperty("Content-Type", "application/json; utf-8");
-//                httpURLConnection.setRequestProperty("Accept", "application/json");
-                Log.e("test", strings.toString());
-                String user = strings[0];
-                String pass = strings[1];
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("username", user);
-                jsonObject.put("password", pass);
-
-
-                HttpURLConnection uc = (HttpURLConnection) url.openConnection();
-                String line;
-                StringBuilder jsonString = new StringBuilder();
-
-                uc.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                uc.setRequestMethod("POST");
-                uc.setDoInput(true);
-                uc.setDoOutput(true);
-                uc.setInstanceFollowRedirects(false);
-                uc.connect();
-                Log.e("test", strings.toString());
-                OutputStreamWriter writer = new OutputStreamWriter(uc.getOutputStream(), "UTF-8");
-                writer.write(jsonObject.toString());
-                writer.close();
-                Log.e("test", strings.toString());
-                BufferedReader br = new BufferedReader(new InputStreamReader(uc.getInputStream()));
-                response = br.readLine();
-                br.close();
-                uc.disconnect();
-            } catch (Exception e) { e.printStackTrace();}
-
-            Log.e("test", response);
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Log.e("test", result);
         }
     }
 }

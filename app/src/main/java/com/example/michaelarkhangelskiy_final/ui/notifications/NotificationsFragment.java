@@ -30,10 +30,12 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+/**
+ * The type Notifications fragment.
+ */
 public class NotificationsFragment extends Fragment implements OnMapReadyCallback {
 
     private NotificationsViewModel notificationsViewModel;
@@ -53,6 +55,14 @@ public class NotificationsFragment extends Fragment implements OnMapReadyCallbac
         }
     };
 
+    /**
+     * Creates the view for the fragment
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the view
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
@@ -68,11 +78,21 @@ public class NotificationsFragment extends Fragment implements OnMapReadyCallbac
         return root;
     }
 
+    /**
+     * Registers broadcasts when a new item is loaded
+     *
+     * @param root the root view
+     */
     private void registerBroadcast(View root){
         LocalBroadcastManager.getInstance(root.getContext()).registerReceiver(receiver,
                 new IntentFilter("ISS-Finished"));
     }
 
+    /**
+     * Sets the view.
+     *
+     * @param root the root view
+     */
     public void setView(final View root){
         final Resources res = root.getResources();
         TextView info = root.findViewById(R.id.iss_people);
@@ -98,6 +118,11 @@ public class NotificationsFragment extends Fragment implements OnMapReadyCallbac
         });
     }
 
+    /**
+     * Adds a marker when the map is ready
+     *
+     * @param googleMap the googlemap
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;

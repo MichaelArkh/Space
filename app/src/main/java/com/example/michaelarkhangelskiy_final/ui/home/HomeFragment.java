@@ -23,6 +23,9 @@ import com.example.michaelarkhangelskiy_final.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class for all the news objects
+ */
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
@@ -37,6 +40,14 @@ public class HomeFragment extends Fragment {
         }
     };
 
+    /**
+     * Creates the view for the fragment
+     *
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return the view
+     */
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
@@ -47,6 +58,10 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    /**
+     * Loads the view the layout
+     * @param root the root view
+     */
     private void loadView(View root){
         ia = new NewsItemAdapter(DataManager.loadNews(root.getContext()), root.getContext());
         rv = root.findViewById(R.id.news_recycle);
@@ -55,6 +70,10 @@ public class HomeFragment extends Fragment {
         rv.setAdapter(ia);
     }
 
+    /**
+     * Registers broadcasts for the root view
+     * @param root the root view
+     */
     private void registerBroadcast(View root){
         LocalBroadcastManager.getInstance(root.getContext()).registerReceiver(receiver,
                 new IntentFilter("News-Finished"));
