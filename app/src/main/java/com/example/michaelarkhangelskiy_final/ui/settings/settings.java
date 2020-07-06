@@ -32,11 +32,15 @@ import android.widget.Toast;
 
 import com.example.michaelarkhangelskiy_final.MainActivity;
 import com.example.michaelarkhangelskiy_final.R;
+import com.example.michaelarkhangelskiy_final.database.SavedItem;
+import com.example.michaelarkhangelskiy_final.database.SavedItemDataSource;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -202,7 +206,37 @@ public class settings extends Fragment {
             saveData.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    SavedItemDataSource a = new SavedItemDataSource(v.getContext());
+                    try {
+                        a.open();
+                        ArrayList<SavedItem> b = a.getItems();
+                        Gson gson = new Gson();
+                        String data = gson.toJson(b);
+                        JsonArray json1 = gson.fromJson(data, JsonArray.class);
+                        JsonObject json = new JsonObject();
+                        json.add("dataArr", json1);
+                        json.addProperty("token", root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("loginToken", ""));
+                        json.addProperty("type", "4");
+                        Log.e("test", json.toString());
+                        Ion.with(v.getContext())
+                                .load("https://testing.mgelsk.com")
+                                .setJsonObjectBody(json)
+                                .asJsonObject()
+                                .setCallback(new FutureCallback<JsonObject>() {
+                                    @Override
+                                    public void onCompleted(Exception e, JsonObject result) {
+                                        // do stuff with the result or error
 
+                                        Log.e("test", result.toString());
+                                        if (result.get("success").getAsInt() == 1) {
+                                            Toast.makeText(v.getContext(), "Save Success", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(v.getContext(), "Save Failure", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
+                        a.close();
+                    } catch (Exception e) { e.printStackTrace();}
                 }
             });
             downloadData.setOnClickListener(new View.OnClickListener() {
