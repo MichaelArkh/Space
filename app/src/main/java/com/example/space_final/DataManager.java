@@ -297,8 +297,12 @@ public class DataManager {
                 @SuppressLint("SimpleDateFormat") SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
                 String date = format1.format(currentTime);
                 String search = a.getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("searchPref", "nasa");
+                int newsCount = a.getSharedPreferences("searchPref", Context.MODE_PRIVATE).getInt("newsCount", 20);
+                if(newsCount > 100){
+                    newsCount = 100;
+                }
                 //search = "nasa";
-                URL url = new URL("https://newsapi.org/v2/everything?q=" + search + "&language=en&from=" + date +"&sortBy=popularity&pageSize=100&apiKey=" + key);
+                URL url = new URL("https://newsapi.org/v2/everything?q=" + search + "&language=en&from=" + date +"&sortBy=popularity&pageSize=" + newsCount + "&apiKey=" + key);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 BufferedReader reader =
                         new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -334,6 +338,7 @@ public class DataManager {
                 g.toJson(ret, write);
                 write.flush();
                 write.close();
+                Toast.makeText(a, "Done loading", Toast.LENGTH_SHORT).show();
             } catch (Exception e) {
                 e.printStackTrace();
             }

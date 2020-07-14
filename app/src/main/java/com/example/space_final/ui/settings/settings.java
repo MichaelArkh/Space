@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -55,6 +56,7 @@ public class settings extends Fragment {
     private CheckBox check, notificatons;
     private TextView dateText;
     private View root;
+    private int newsCounts, rocketCounts, changed;
 
     /**
      * Inflates the view
@@ -85,14 +87,20 @@ public class settings extends Fragment {
             String custom1 = input.getText().toString();
             root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).edit().putString("searchPref", custom1).apply();
         }
-        if(!newsCount.getText().toString().equals("")){
+        if(!newsCount.getText().toString().equals("") && Integer.parseInt(newsCount.getText().toString()) != newsCounts){
             root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).edit().putInt("newsCount", Integer.parseInt(newsCount.getText().toString())).apply();
+            changed++;
         }
-        if(!rocketCount.getText().toString().equals("")) {
+        if(!rocketCount.getText().toString().equals("") && Integer.parseInt(rocketCount.getText().toString()) != rocketCounts) {
             root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).edit().putInt("rocketCount", Integer.parseInt(rocketCount.getText().toString())).apply();
+            changed++;
         }
-
-        MainActivity.dm.generateFiles();
+        if(changed > 2 && Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+            MainActivity.dm.generateFiles();
+        } else if(changed >= 2 && Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            MainActivity.dm.generateFiles();
+            Log.e("test", "1");
+        }
     }
 
     /**
@@ -116,13 +124,14 @@ public class settings extends Fragment {
         login = root.findViewById(R.id.loginButton);
         downloadData = root.findViewById(R.id.downloadData);
         saveData = root.findViewById(R.id.saveData);
+        changed = 0;
     }
 
     /**
      * Registers listeners for the view
      * @param root the root view
      */
-    public void registerListeners(final View root){
+    private void registerListeners(final View root){
         searchTerm.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -136,6 +145,7 @@ public class settings extends Fragment {
                     custom.setChecked(false);
                     root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).edit().putString("searchPref", "iss").apply();
                 }
+               changed++;
             }
         });
         custom.setOnCheckedChangeListener(new RadioButton.OnCheckedChangeListener() {
@@ -144,6 +154,7 @@ public class settings extends Fragment {
                 if(isChecked) {
                     searchTerm.clearCheck();
                 }
+                changed++;
             }
         });
         final FragmentManager fm = getParentFragmentManager();
@@ -159,6 +170,7 @@ public class settings extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).edit().putBoolean("showBefore", isChecked).apply();
+                changed++;
             }
         });
         notificatons.setOnCheckedChangeListener(new CheckBox.OnCheckedChangeListener() {
@@ -326,6 +338,7 @@ public class settings extends Fragment {
             String text = g.toJson(a);
             root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).edit().putString("startDate", text).apply();
             dateText.setText(a.toString());
+            changed++;
         }
     }
 
@@ -356,10 +369,10 @@ public class settings extends Fragment {
         }
         dateText.setText(def);
         //Item counts
-        int newsCount = root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getInt("newsCount", 20);
-        int rocketCount = root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getInt("rocketCount", 20);
-        this.newsCount.setText(String.valueOf(newsCount));
-        this.rocketCount.setText(String.valueOf(rocketCount));
+        newsCounts = root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getInt("newsCount", 20);
+        rocketCounts = root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getInt("rocketCount", 20);
+        this.newsCount.setText(String.valueOf(newsCounts));
+        this.rocketCount.setText(String.valueOf(rocketCounts));
         //Checkbox
         check.setChecked(root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getBoolean("showBefore", false));
         notificatons.setChecked(root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getBoolean("notificationsEnabled", true));
