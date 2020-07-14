@@ -2,8 +2,6 @@ package com.example.michaelarkhangelskiy_final.database;
 
 import android.util.Log;
 
-import androidx.annotation.Nullable;
-
 import com.example.michaelarkhangelskiy_final.ui.dashboard.RocketItem;
 import com.example.michaelarkhangelskiy_final.ui.home.NewsItem;
 

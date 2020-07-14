@@ -2,9 +2,6 @@ package com.example.michaelarkhangelskiy_final.ui.settings;
 
 import android.content.Context;
 import android.os.Bundle;
-
-import androidx.fragment.app.DialogFragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.michaelarkhangelskiy_final.R;
+import androidx.fragment.app.DialogFragment;
 
+import com.example.michaelarkhangelskiy_final.R;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;

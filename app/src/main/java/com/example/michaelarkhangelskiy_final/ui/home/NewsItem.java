@@ -3,12 +3,10 @@ package com.example.michaelarkhangelskiy_final.ui.home;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.widget.ImageView;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
 /**
  * The type News item.

@@ -1,44 +1,21 @@
 package com.example.michaelarkhangelskiy_final;
 
-import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
-import com.example.michaelarkhangelskiy_final.ui.dashboard.DashboardViewModel;
-import com.example.michaelarkhangelskiy_final.ui.dashboard.RocketItem;
-import com.example.michaelarkhangelskiy_final.ui.home.HomeViewModel;
-import com.example.michaelarkhangelskiy_final.ui.home.NewsItem;
-import com.example.michaelarkhangelskiy_final.ui.notifications.ISS;
-import com.example.michaelarkhangelskiy_final.ui.notifications.NotificationsViewModel;
-import com.example.michaelarkhangelskiy_final.ui.saved.SavedViewModel;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
+import com.example.michaelarkhangelskiy_final.ui.saved.SavedViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.net.InetAddress;
-import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     boolean internet;

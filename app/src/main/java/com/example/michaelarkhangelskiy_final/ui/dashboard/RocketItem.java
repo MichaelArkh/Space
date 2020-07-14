@@ -9,7 +9,6 @@ import com.google.android.gms.maps.model.LatLng;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
-import java.util.concurrent.ExecutionException;
 
 /**
  * The type Rocket item.

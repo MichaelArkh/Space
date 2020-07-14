@@ -2,11 +2,8 @@ package com.example.michaelarkhangelskiy_final.ui.saved;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +19,6 @@ import com.example.michaelarkhangelskiy_final.database.SavedItem;
 import com.example.michaelarkhangelskiy_final.database.SavedItemDataSource;
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
-import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

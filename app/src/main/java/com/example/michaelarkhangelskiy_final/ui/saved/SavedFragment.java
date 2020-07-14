@@ -1,32 +1,19 @@
 package com.example.michaelarkhangelskiy_final.ui.saved;
 
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.michaelarkhangelskiy_final.R;
-import com.example.michaelarkhangelskiy_final.database.SavedItem;
 import com.example.michaelarkhangelskiy_final.database.SavedItemDataSource;
-import com.example.michaelarkhangelskiy_final.ui.home.NewsItem;
-import com.example.michaelarkhangelskiy_final.ui.home.NewsItemAdapter;
-import com.example.michaelarkhangelskiy_final.ui.notifications.NotificationsViewModel;
-import com.example.michaelarkhangelskiy_final.ui.settings.SettingsViewModel;
 
 /**
  * The fragment for the saved objects

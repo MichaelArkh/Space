@@ -12,7 +12,6 @@ import com.example.michaelarkhangelskiy_final.database.SavedItemDataSource;
 import com.example.michaelarkhangelskiy_final.ui.dashboard.RocketItem;
 import com.example.michaelarkhangelskiy_final.ui.home.NewsItem;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
