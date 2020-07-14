@@ -110,6 +110,11 @@ public class RegisterFrag extends DialogFragment {
                 @Override
                 public void onClick(View v) {
                     try {
+                        if(user.getText().toString().equals("") || pass.getText().toString().equals("")){
+                            dismiss();
+                            Toast.makeText(v.getContext(), "Inputs cannot be empty", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         JsonObject json = new JsonObject();
                         json.addProperty("username", user.getText().toString());
                         json.addProperty("password", pass.getText().toString());
@@ -139,11 +144,15 @@ public class RegisterFrag extends DialogFragment {
                 @Override
                 public void onClick(View v) {
                     try {
+                        if(user.getText().toString().equals("") || pass.getText().toString().equals("")){
+                            dismiss();
+                            Toast.makeText(v.getContext(), "Inputs cannot be empty", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
                         JsonObject json = new JsonObject();
                         String usera = user.getText().toString();
                         json.addProperty("username", user.getText().toString());
                         json.addProperty("password", pass.getText().toString());
-
                         json.addProperty("type", "1");
                         Ion.with(v.getContext())
                                 .load(getString(R.string.login_api))
