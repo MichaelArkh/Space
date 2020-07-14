@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MichaelArkhangelskiy-final</string>
+    <string name="app_name">Space Info</string>
     <string name="title_home">News</string>
     <string name="title_dashboard">Launches</string>
     <string name="title_notifications">ISS</string>
