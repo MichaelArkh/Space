@@ -1,11 +1,8 @@
 package com.example.michaelarkhangelskiy_final.ui.settings;
 
-import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,7 +11,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -41,7 +37,6 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -192,7 +187,7 @@ public class settings extends Fragment {
                         json.addProperty("token", root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("loginToken", ""));
                         json.addProperty("type", "2");
                         Ion.with(v.getContext())
-                                .load("https://testing.mgelsk.com")
+                                .load(getString(R.string.login_api))
                                 .setJsonObjectBody(json)
                                 .asJsonObject()
                                 .setCallback(new FutureCallback<JsonObject>() {
@@ -238,7 +233,7 @@ public class settings extends Fragment {
                         json.addProperty("token", root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("loginToken", ""));
                         json.addProperty("type", "4");
                         Ion.with(v.getContext())
-                                .load("https://testing.mgelsk.com")
+                                .load(getString(R.string.login_api))
                                 .setJsonObjectBody(json)
                                 .asJsonObject()
                                 .setCallback(new FutureCallback<JsonObject>() {
@@ -265,7 +260,7 @@ public class settings extends Fragment {
                     json.addProperty("token", root.getContext().getSharedPreferences("searchPref", Context.MODE_PRIVATE).getString("loginToken", ""));
                     json.addProperty("type", "3");
                     Ion.with(v.getContext())
-                            .load("https://testing.mgelsk.com")
+                            .load(getString(R.string.login_api))
                             .setJsonObjectBody(json)
                             .asJsonObject()
                             .setCallback(new FutureCallback<JsonObject>() {

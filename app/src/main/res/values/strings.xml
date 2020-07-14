@@ -8,4 +8,5 @@
     <string name="people">There are currently %1$d people in space</string>
     <string name="channel_name">main</string>
     <string name="channel_description">main channel</string>
+    <string name="login_api">https://testing.mgelsk.com</string>
 </resources>
